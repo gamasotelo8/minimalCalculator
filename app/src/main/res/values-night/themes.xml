@@ -10,7 +10,13 @@
         <item name="buttonBarButtonStyle">@style/Widget.AppCompat.Button.Borderless</item>
         <item name="buttonBarNegativeButtonStyle">@style/Widget.AppCompat.Button.Borderless</item>
         <item name="buttonBarPositiveButtonStyle">@style/Widget.AppCompat.Button.Borderless</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#D3D3D3</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:minWidth">80sp</item>
+        <item name="android:minHeight">80sp</item>
+        <item name="android:padding">0dp</item>
     </style>
 </resources>

@@ -92,7 +92,7 @@ class MainFragment : Fragment() {
             }
         }
 
-        binding.btnPercent.setOnClickListener {
+        binding.btnSecondParentesis.setOnClickListener {
             if (binding.operations.text.toString().isNotEmpty()) {
 
             }

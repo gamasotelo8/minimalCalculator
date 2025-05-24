@@ -20,7 +20,8 @@
     <string name="btn_zero">0</string>
     <string name="btn_dot">.</string>
     <string name="btn_equals">=</string>
-    <string name="btn_parenthesis">()</string>
+    <string name="btn_first_parenthesis">(</string>
+    <string name="btn_second_parenthesis">)</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
