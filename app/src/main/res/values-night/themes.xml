@@ -1,0 +1,16 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Calculadora" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your dark theme here. -->
+        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    </style>
+
+    <style name="ButtonsTheme" parent="Base.Theme.Calculadora">
+        <item name="buttonStyle">@style/Widget.AppCompat.Button</item>
+        <item name="buttonBarButtonStyle">@style/Widget.AppCompat.Button.Borderless</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.AppCompat.Button.Borderless</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.AppCompat.Button.Borderless</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+</resources>
