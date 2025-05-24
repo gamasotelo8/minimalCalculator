@@ -33,7 +33,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setOnClicklisteners()
+        setupClicklisteners()
     }
 
     override fun onDestroyView() {
@@ -41,142 +41,217 @@ class MainFragment : Fragment() {
         _binding = null
     }
 
-    fun setOnClicklisteners() {
-        val numberButtons = mapOf(
-            binding.btnOne to "1",
-            binding.btnTwo to "2",
-            binding.btnThree to "3",
-            binding.btnFour to "4",
-            binding.btnFive to "5",
-            binding.btnSix to "6",
-            binding.btnSeven to "7",
-            binding.btnEight to "8",
-            binding.btnNine to "9",
-            binding.btnZero to "0",
-        )
+    private fun setupClicklisteners() {
 
-        numberButtons.forEach { (button, value) ->
-            button.setOnClickListener {
-                binding.operations.text = binding.operations.text.toString() + value
-                evaluate(binding.operations.text.toString())
+        // Números
+        binding.btnOne.setOnClickListener { appendInput("1") }
+        binding.btnTwo.setOnClickListener { appendInput("2") }
+        binding.btnThree.setOnClickListener { appendInput("3") }
+        binding.btnFour.setOnClickListener { appendInput("4") }
+        binding.btnFive.setOnClickListener { appendInput("5") }
+        binding.btnSix.setOnClickListener { appendInput("6") }
+        binding.btnSeven.setOnClickListener { appendInput("7") }
+        binding.btnEight.setOnClickListener { appendInput("8") }
+        binding.btnNine.setOnClickListener { appendInput("9") }
+        binding.btnZero.setOnClickListener { appendInput("0") }
 
-            }
-        }
+        // Punto decimal
+        binding.btnDot.setOnClickListener { appendDot() }
 
-        binding.btnDot.setOnClickListener {
-            binding.operations.text = binding.operations.text.toString() + "."
-        }
-        val operatorButtons = mapOf(
-            binding.btnAddition to "+",
-            binding.btnSubtraction to "-",
-            binding.btnMultiplication to "*",
-            binding.btnDivision to "/"
-        )
+        // Operadores
+        binding.btnAddition.setOnClickListener { appendOperator("+") }
+        binding.btnSubtraction.setOnClickListener { appendOperator("-") }
+        binding.btnMultiplication.setOnClickListener { appendOperator("*") }
+        binding.btnDivision.setOnClickListener { appendOperator("/") }
 
-        operatorButtons.forEach { (button, operator) ->
-            button.setOnClickListener {
-                valitadeInputOperators(operator)
-            }
-        }
+        binding.btnFirstParenthesis.setOnClickListener { handleParenthesis("(") }
+        binding.btnSecondParentesis.setOnClickListener { handleParenthesis(")") }
 
-        binding.btnAc.setOnClickListener {
-            binding.result.text = "";
-            binding.operations.text = "";
-        }
-
-        binding.btnDelete.setOnClickListener {
-            val text = binding.operations.text.toString()
-            if (text.isNotEmpty()) {
-                binding.operations.text = text.substring(0, text.length - 1)
-                evaluate(binding.operations.text.toString())
-            }
-        }
-
-        binding.btnSecondParentesis.setOnClickListener {
-            if (binding.operations.text.toString().isNotEmpty()) {
-
-            }
-        }
-
-        binding.btnEquals.setOnClickListener {
-            if (binding.result.text.toString().isNotEmpty()) {
-                binding.operations.text = binding.result.text.toString()
-                binding.result.text = ""
-            }
-        }
+        // Botones especiales
+        binding.btnAc.setOnClickListener { clearAll() }
+        binding.btnDelete.setOnClickListener { deleteLastChar() }
+        binding.btnEquals.setOnClickListener { handleEquals() }
     }
 
-    private fun validateInput(input: String): Boolean {
-        val operators = listOf("+", "-", "*", "/")
-        var lastChar = input.lastOrNull()?.toString()
-        var isValid = true
+    private fun appendInput(value: String) {
+        val currentText = binding.operations.text.toString()
+        if(currentText.endsWith(")")){
+            binding.operations.append("*$value")
+        }else{
+            binding.operations.append(value)
+        }
+        evaluateExpression()
+    }
 
-        if (input.contains("+") ||
-            input.contains("-") ||
-            input.contains("*") ||
-            input.contains("/")
-        ) {
-            isValid = true
+    private fun appendDot() {
+        val currentText = binding.operations.text.toString()
+
+        if (currentText.isEmpty() || currentText.last().isOperator() || currentText.last() == '(') {
+            binding.operations.append("0.")
         } else {
-            isValid = false
-        }
-
-        if (lastChar in operators || lastChar == "." || lastChar == "" || lastChar == null) {
-            isValid = false
-        }
-
-        return isValid
-    }
-
-    private fun valitadeInputOperators(operator: String) {
-        val operators = listOf("+", "-", "*", "/")
-
-        binding.result.text = ""
-        if (binding.operations.text.toString().isEmpty()) {
-            return
-        } else if (binding.operations.text.toString().last().toString() in operators) {
-            binding.operations.text = binding.operations.text.toString().dropLast(1)
-            binding.operations.text = binding.operations.text.toString() + operator
-        } else {
-            binding.operations.text = binding.operations.text.toString() + operator
-        }
-    }
-
-    private fun calculateResult(expresion: String) {
-        var calc: Calculable? = null
-        try {
-            calc = ExpressionBuilder(expresion).build()
-            val result = calc.calculate()
-            if (isWholeNumber(result)) {
-                binding.result.text = result.toInt().toString()
+            val lastNumberMatch = OPERATORS_REGEX.find(currentText.reversed())
+            val lastNumber = if (lastNumberMatch != null) {
+                currentText.reversed().substring(0, lastNumberMatch.range.last + 1)
             } else {
-                binding.result.text = result.toString()
+                currentText
             }
 
-        } catch (e: UnknownFunctionException) {
-            binding.result.text = e.message
-        } catch (e: UnparsableExpressionException) {
+            if (!lastNumber.contains(".")) {
+                binding.operations.append(".")
+            }
+        }
+        evaluateExpression()
+    }
+
+    private fun appendOperator(operator: String) {
+        val currentText = binding.operations.text.toString()
+
+        if (currentText.isEmpty()) {
+            if (operator == "-") {
+                binding.operations.text = operator
+            }
+            binding.result.text = ""
+            return
+        }
+
+        if (currentText.isNotEmpty() && currentText.last().isOperator()) {
+            if(currentText.length > 1){
+                binding.operations.text = currentText.dropLast(1) + operator
+            }
+        } else {
+            binding.operations.append(operator)
+        }
+        binding.result.text = ""
+    }
+
+    private fun clearAll() {
+        binding.operations.text = ""
+        binding.result.text = ""
+    }
+
+    private fun deleteLastChar() {
+        val currentText = binding.operations.text.toString()
+        if (currentText.isNotEmpty()) {
+            binding.operations.text = currentText.dropLast(1)
+            evaluateExpression()
+        } else {
             binding.result.text = ""
         }
     }
 
-    private fun evaluate(expresion: String) {
-        if (validateInput(expresion)) {
-            calculateResult(expresion)
-        } else {
+    private fun handleEquals() {
+        val expressionText = binding.operations.text.toString()
+        if (expressionText.isNotEmpty()) {
+            try {
+                val balancedExpression = balanceParentheses(expressionText)
+
+                val expression = ExpressionBuilder(balancedExpression).build()
+                val result = expression.calculate()
+                displayFormattedResult(result, isFinalResult = true)
+                binding.operations.text = binding.result.text
+                binding.result.text = ""
+            } catch (e: Exception) {
+                binding.result.text = "Error"
+                binding.operations.text = ""
+            }
+        }
+    }
+
+    private fun handleParenthesis(paren: String) {
+        val currentText = binding.operations.text.toString()
+        val openCount = currentText.count { it == '(' }
+        val closeCount = currentText.count { it == ')' }
+
+        if (paren == "(") {
+            // Lógica para el paréntesis de apertura "("
+            when {
+                // Si la expresión está vacía, o termina en un operador, o ya en un paréntesis de apertura
+                currentText.isEmpty() || (currentText.isNotEmpty() && currentText.last().isOperator()) || (currentText.isNotEmpty() && currentText.last() == '(') -> {
+                    binding.operations.append("(")
+                }
+                // Si termina en un número, un paréntesis de cierre, o un punto
+                // se asume multiplicación implícita antes de abrir un nuevo paréntesis.
+                (currentText.isNotEmpty() && currentText.last().isDigit()) || (currentText.isNotEmpty() && currentText.last() == ')') || (currentText.isNotEmpty() && currentText.last() == '.') -> {
+                    binding.operations.append("*(")
+                }
+                // Cualquier otro caso, simplemente añade el paréntesis de apertura
+                else -> {
+                    binding.operations.append("(")
+                }
+            }
+        } else if (paren == ")") {
+            // Lógica para el paréntesis de cierre ")"
+            // 1. Debe haber al menos un paréntesis de apertura sin cerrar.
+            // 2. La expresión no puede terminar en un operador, un paréntesis de apertura o un punto.
+            if (openCount > closeCount &&
+                currentText.isNotEmpty() &&
+                !currentText.last().isOperator() && currentText.last() != '(' && currentText.last() != '.'
+            ) {
+                binding.operations.append(")")
+            }
+            // Si las condiciones no se cumplen, no se hace nada (comportamiento minimalista)
+        }
+        evaluateExpression() // Evalúa la expresión para el preview
+    }
+
+    private fun evaluateExpression() {
+        val expressionText = binding.operations.text.toString()
+        if (expressionText.isEmpty()) {
             binding.result.text = ""
+            return
+        }
+
+        // No intentar evaluar si la expresión termina en un operador o un punto (expresión incompleta)
+        if (expressionText.last().isOperator() || expressionText.last() == '(' || expressionText.last() == '.') {
+            binding.result.text = ""
+            return
+        }
+
+        try {
+            // Intentar balancear paréntesis para el preview, si es posible
+            val balancedExpression = balanceParentheses(expressionText)
+            val expression = ExpressionBuilder(balancedExpression).build()
+            val result = expression.calculate()
+            displayFormattedResult(result, isFinalResult = false)
+        } catch (e: Exception) {
+            // No mostrar "Error" en el preview, simplemente limpiarlo
+            binding.result.text = ""
+        }
+    }
+
+    private fun displayFormattedResult(result: Double, isFinalResult: Boolean) {
+        if (isWholeNumber(result)) {
+            binding.result.text = result.toLong().toString()
+        } else {
+            // Formatear a un número razonable de decimales (ej. 8)
+            // Eliminar ceros al final y el punto si no hay decimales restantes.
+            val formatted = String.format("%.8f", result).trimEnd('0')
+            binding.result.text = if (formatted.endsWith(".")) formatted.dropLast(1) else formatted
         }
     }
 
     private fun isWholeNumber(result: Double): Boolean {
-        val remainder: Double = result % 1
-
-        if (remainder == 0.0)
-            return true
-        else
-            return false
+        // Usar un pequeño épsilon para la comparación de punto flotante
+        return Math.abs(result - result.toLong()) < 0.0000001
     }
 
+    private fun Char.isOperator(): Boolean {
+        return this == '+' || this == '-' || this == '*' || this == '/'
+    }
+
+    private val OPERATORS_REGEX = "[+\\-*/]".toRegex()
+
+
+    private fun balanceParentheses(expression: String): String {
+        var openCount = 0
+        var closeCount = 0
+        for (char in expression) {
+            if (char == '(') openCount++
+            else if (char == ')') closeCount++
+        }
+        val diff = openCount - closeCount
+        return if (diff > 0) expression + ")".repeat(diff) else expression
+    }
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
