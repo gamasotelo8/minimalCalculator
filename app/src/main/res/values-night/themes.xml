@@ -12,11 +12,15 @@
         <item name="buttonBarPositiveButtonStyle">@style/Widget.AppCompat.Button.Borderless</item>
         <item name="android:textColor">#D3D3D3</item>
         <item name="android:textSize">30sp</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:gravity">center</item>
         <item name="android:background">?attr/selectableItemBackground</item>
         <item name="android:minWidth">80sp</item>
         <item name="android:minHeight">80sp</item>
         <item name="android:padding">0dp</item>
+        <item name="android:fontFamily">@font/lato_regular</item>
+    </style>
+
+    <style name= "DeleteButtonsTheme" parent="ButtonsTheme">
+        <item name="android:src">@drawable/dark_backspace_30</item>
     </style>
 </resources>

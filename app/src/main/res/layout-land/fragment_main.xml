@@ -1,49 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_main_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="100dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="10dp"
     android:paddingBottom="10dp"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/operations"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ellipsize="start"
-        android:maxLines="1"
-        android:scrollHorizontally="true"
-        android:textAlignment="viewEnd"
-        android:textSize="30sp"
-        tools:text="operations"
-        android:fontFamily="@font/lato_light"/>
-
-    <TextView
-        android:id="@+id/result"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:maxLines="1"
-        android:textAlignment="viewEnd"
-        android:textSize="56sp"
-        android:fontFamily="@font/lato_regular"
-        tools:text="result"/>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
     <GridLayout
-        android:layout_width="match_parent"
+        android:id="@+id/grid_buttons"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:alignmentMode="alignBounds"
         android:columnCount="4"
         android:useDefaultMargins="true"
@@ -52,8 +25,8 @@
         <Button
             android:id="@+id/btn_ac"
             style="@style/ButtonsTheme"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:text="@string/btn_ac" />
@@ -61,7 +34,7 @@
         <Button
             android:id="@+id/btn_first_parenthesis"
             style="@style/ButtonsTheme"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
@@ -70,7 +43,7 @@
         <Button
             android:id="@+id/btn_second_parentesis"
             style="@style/ButtonsTheme"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
@@ -79,7 +52,7 @@
         <Button
             android:id="@+id/btn_division"
             style="@style/ButtonsTheme"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
@@ -88,7 +61,7 @@
         <Button
             android:id="@+id/btn_seven"
             style="@style/ButtonsTheme"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
@@ -97,7 +70,7 @@
         <Button
             android:id="@+id/btn_eight"
             style="@style/ButtonsTheme"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
@@ -106,7 +79,7 @@
         <Button
             android:id="@+id/btn_nine"
             style="@style/ButtonsTheme"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
@@ -115,7 +88,7 @@
         <Button
             android:id="@+id/btn_multiplication"
             style="@style/ButtonsTheme"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
@@ -124,7 +97,7 @@
         <Button
             android:id="@+id/btn_four"
             style="@style/ButtonsTheme"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
@@ -133,7 +106,7 @@
         <Button
             android:id="@+id/btn_five"
             style="@style/ButtonsTheme"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
@@ -142,7 +115,7 @@
         <Button
             android:id="@+id/btn_six"
             style="@style/ButtonsTheme"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
@@ -151,7 +124,7 @@
         <Button
             android:id="@+id/btn_subtraction"
             style="@style/ButtonsTheme"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
@@ -160,7 +133,7 @@
         <Button
             android:id="@+id/btn_one"
             style="@style/ButtonsTheme"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
@@ -169,7 +142,7 @@
         <Button
             android:id="@+id/btn_two"
             style="@style/ButtonsTheme"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
@@ -178,7 +151,7 @@
         <Button
             android:id="@+id/btn_three"
             style="@style/ButtonsTheme"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
@@ -187,7 +160,7 @@
         <Button
             android:id="@+id/btn_addition"
             style="@style/ButtonsTheme"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
@@ -196,7 +169,7 @@
         <Button
             android:id="@+id/btn_zero"
             style="@style/ButtonsTheme"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:text="@string/btn_zero" />
@@ -204,7 +177,7 @@
         <Button
             android:id="@+id/btn_dot"
             style="@style/ButtonsTheme"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
@@ -213,7 +186,7 @@
         <ImageButton
             android:id="@+id/btn_delete"
             style="@style/DeleteButtonsTheme"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
@@ -222,11 +195,44 @@
         <Button
             android:id="@+id/btn_equals"
             style="@style/ButtonsTheme"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:text="@string/btn_equals" />
     </GridLayout>
+
+    <LinearLayout
+        android:id="@+id/text_display_area"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="bottom"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+
+        <TextView
+            android:id="@+id/operations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="start"
+            android:maxLines="1"
+            android:scrollHorizontally="true"
+            android:textAlignment="viewEnd"
+            android:textSize="30sp"
+            tools:text="operations"
+            android:fontFamily="@font/lato_light"/>
+
+        <TextView
+            android:id="@+id/result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:maxLines="1"
+            android:textAlignment="viewEnd"
+            android:textSize="56sp"
+            android:fontFamily="@font/lato_regular"
+            tools:text="result"/>
+    </LinearLayout>
 
 </LinearLayout>
